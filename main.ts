@@ -25,7 +25,7 @@ mario.setFlag(SpriteFlag.StayInScreen, true)
 //  Make player controls
 controller.moveSprite(mario, 200, 200)
 //  Create the enemies
-game.onUpdateInterval(900, function on_update_interval() {
+game.onUpdateInterval(750, function on_update_interval() {
     let goombas = sprites.create(img`
     . . . . . . . . . . . . . . . .
     . . . . . . . . . . . . . . . .

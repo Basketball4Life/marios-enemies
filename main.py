@@ -49,4 +49,4 @@ def on_update_interval():
     goombas.set_position(scene.screen_width(), randint(0,scene.screen_height()))
     goombas.set_velocity(-30,0)
     
-game.on_update_interval(900, on_update_interval)
+game.on_update_interval(750, on_update_interval)
