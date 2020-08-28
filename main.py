@@ -123,6 +123,7 @@ scene.set_background_image(img("""
     e e e e e e e e e e e e e a a a a a a a a a a a a a a a a a a 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 a a a a a a a a a a a a a a a 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 a a a a a a a a a a a a a a a a a a a a a 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 a a a a a a a a a a e e e e e e e e f f e e e e f f e e e
     e e e e e e e e e e e e e a a a a a a a a a a a a a a a a a a 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 a a a a a a a a a a a a a a a 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 a a a a a a a a a a a a a a a a a a a a a 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 a a a a a a a a a a e e e e e e e e f e e e e e e e e e e
 """))
+
 # Make the player
 mario = sprites.create(img("""
         . . . . . . . . . . . . . . . . 
@@ -146,10 +147,11 @@ mario = sprites.create(img("""
 mario.set_position(10, 60)
 mario.set_flag(SpriteFlag.STAY_IN_SCREEN, True)
 mario.set_kind(SpriteKind.player)
+
 # Make player controls
 controller.move_sprite(mario, 200, 200)
-# Create the enemies
 
+# Create the enemies
 def on_update_interval():
     goombas = sprites.create(img("""
     . . . . . . . . . . . . . . . .
