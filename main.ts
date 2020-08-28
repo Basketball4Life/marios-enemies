@@ -22,6 +22,7 @@ let mario = sprites.create(img`
     `, 0)
 mario.setPosition(10, 60)
 mario.setFlag(SpriteFlag.StayInScreen, true)
+mario.setKind(SpriteKind.Player)
 //  Make player controls
 controller.moveSprite(mario, 200, 200)
 //  Create the enemies
@@ -46,24 +47,34 @@ game.onUpdateInterval(750, function on_update_interval() {
     `)
     goombas.setPosition(scene.screenWidth(), randint(0, scene.screenHeight()))
     goombas.setVelocity(-30, 0)
+    goombas.setKind(SpriteKind.Enemy)
 })
 controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function on_button_event_a_pressed() {
     let fire = sprites.createProjectileFromSprite(img`
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . 4 4 4 4 4 . . . . .
-    . . . . . 4 4 5 5 5 4 4 . . . .
-    . 4 4 . 4 5 5 2 2 2 5 4 . . . .
-    . . . . . 4 4 5 5 5 4 4 . . . .
-    . . . . . . 4 4 4 4 4 . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . 5 5 5 5 5 5 . . . . .
+        . . . . 5 2 2 2 2 2 2 5 . . . .
+        . . . 5 2 2 4 4 4 4 2 5 . . . .
+        . . 5 2 2 4 5 5 5 4 2 5 . . . .
+        . . . 5 2 2 4 4 4 4 2 5 . . . .
+        . . . . 5 2 2 2 2 2 2 5 . . . .
+        . . . . . 5 5 5 5 5 5 . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
+        . . . . . . . . . . . . . . . .
     `, mario, 50, 0)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function on_overlap(sprite: Sprite, otherSprite: Sprite) {
+    otherSprite.destroy()
+    info.changeLifeBy(-1)
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function on_goombas_hit(sprite: Sprite, otherSprite: Sprite) {
+    sprite.destroy()
+    otherSprite.destroy(effects.fire, 100)
+    info.changeScoreBy(1)
 })
