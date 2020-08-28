@@ -47,3 +47,23 @@ game.onUpdateInterval(750, function on_update_interval() {
     goombas.setPosition(scene.screenWidth(), randint(0, scene.screenHeight()))
     goombas.setVelocity(-30, 0)
 })
+controller.player1.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Pressed, function on_button_event_a_pressed() {
+    let fire = sprites.createProjectileFromSprite(img`
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . 4 4 4 4 4 . . . . .
+    . . . . . 4 4 5 5 5 4 4 . . . .
+    . 4 4 . 4 5 5 2 2 2 5 4 . . . .
+    . . . . . 4 4 5 5 5 4 4 . . . .
+    . . . . . . 4 4 4 4 4 . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    `, mario, 50, 0)
+})

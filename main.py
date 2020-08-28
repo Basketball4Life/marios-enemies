@@ -50,3 +50,24 @@ def on_update_interval():
     goombas.set_velocity(-30,0)
     
 game.on_update_interval(750, on_update_interval)
+
+def on_button_event_a_pressed():
+    fire = sprites.create_projectile_from_sprite(img("""
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . 4 4 4 4 4 . . . . .
+    . . . . . 4 4 5 5 5 4 4 . . . .
+    . 4 4 . 4 5 5 2 2 2 5 4 . . . .
+    . . . . . 4 4 5 5 5 4 4 . . . .
+    . . . . . . 4 4 4 4 4 . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    """), mario, 50, 0)
+controller.player1.on_button_event(ControllerButton.A, ControllerButtonEvent.PRESSED, on_button_event_a_pressed)
