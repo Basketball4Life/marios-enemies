@@ -1,3 +1,40 @@
+def on_player1_button_a_pressed():
+    global fire
+    fire = sprites.create_projectile_from_sprite(img("""
+            . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . 5 5 5 5 5 5 . . . . . 
+                    . . . . 5 2 2 2 2 2 2 5 . . . . 
+                    . . . 5 2 2 4 4 4 4 2 2 5 . . . 
+                    . . 5 2 2 4 5 5 5 4 2 2 5 . . . 
+                    . . . 5 2 2 4 4 4 4 2 2 5 . . . 
+                    . . . . 5 2 2 2 2 2 2 5 . . . . 
+                    . . . . . 5 5 5 5 5 5 . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . . 
+                    . . . . . . . . . . . . . . . .
+        """),
+        mario,
+        50,
+        0)
+controller.player1.on_button_event(ControllerButton.A,
+    ControllerButtonEvent.PRESSED,
+    on_player1_button_a_pressed)
+
+def on_on_overlap(sprite, otherSprite):
+    sprite.destroy()
+    otherSprite.destroy(effects.fire, 100)
+    info.change_score_by(1)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap)
+
+def on_on_overlap2(sprite, otherSprite):
+    otherSprite.destroy()
+    info.change_life_by(-1)
+sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap2)
 
 goombas: Sprite = None
 fire: Sprite = None
@@ -8,25 +45,25 @@ info.set_life(3)
 scene.set_background_image(img("""
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa111111111111111111115555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaaaa11111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111555555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaa111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111155555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111111115555555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaa111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111111111155555555555555555
-    aaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111111111111555555555555555
-    aaaaaaaaaaaaaaaaa1111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111111aaaa5555555555
-    aaaaaaaaaaaaaaaa11111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111111aaaaaaaa555555
-    aaaaaaaaaaaaaa1111111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111111aaaaaaaaaaaaaa
-    aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111aaaaaaaaaaaaaa
-    aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111aaaaaaaaaaaaaa
-    aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111aaaaaaaaaaaaaa
-    aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111aaaaaaaaaaaaaaaaa
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555515555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555511555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555551151555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555551551111111155aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa111111111111111111115555555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaaaa11111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555111555555551155aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111555555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaa111111111111111111aaaaaaaaaaaaaaaaaaaaaaaa5555115515155115555aaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111155555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111aaaaaaaaaaaaaaaaaaaa5511555515155155555aaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111111115555555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaa111111111111111111111111aaaaaaaaaaaaaaaaaa1111111155555155555aaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111111111155555555555555555
+    aaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111aaaaaaaaaaaaaaaa5555555155555155555aaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111111111111555555555555555
+    aaaaaaaaaaaaaaaaa1111111111111111111111111111111111aaaaaaaaaaaaaaa5555555151155511555aaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111111aaaa5555555555
+    aaaaaaaaaaaaaaaa11111111111111111111111111111111111aaaaaaaaaaaaaaa5555555151515551555aaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111111aaaaaaaa555555
+    aaaaaaaaaaaaaa1111111111111111111111111111111111111aaaaaaaaaaaaaaaa55555515151111155aaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111111aaaaaaaaaaaaaa
+    aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaa55555515155555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111aaaaaaaaaaaaaa
+    aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaaa555551155555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111aaaaaaaaaaaaaa
+    aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaaaa5555555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111111aaaaaaaaaaaaaa
+    aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111111111111111111111111111aaaaaaaaaaaaaaaaa
     aaaaaaaaaaaaa11111111111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa111111111111111111111111111aaaaaaaaaaaaaaaaa
     aaaaaaaaaaaaa111111111111111111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa111111111111111111111111111111aaaaaaaaaaaaaa
     aaaaaaaaaaaaaaaa1111111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa111111111111aaaaaaaaaaaaaaaaaaaaaaaaaaa111111111111111111111111111111aaaaaaaaaaaaaa
@@ -71,23 +108,23 @@ scene.set_background_image(img("""
     dddddddddddddddddaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     dddddddddddddddaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     dddddddddddddaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-    ddddddddddddaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-    dddddddddddaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-    dddddddddaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555aaaaaaaaaaaaaaaaaaaaaaaaaaaa1111aaaaaa
-    dddddddaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555aaaaaaaaaaaaaaaaaaaaaaaaaaa11ff1aaaaaa
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555aaaaaaaaaaaaaaaaaaaaaaaaaa11fff1aaaaaa
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555aaaaaaaaaaaaaaaaaaaaaaaaaaa1ffff1aaaaaa
+    ddddddddddddaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5551155aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    dddddddddddaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5551155aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    dddddddddaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5551155aaaaaaaaaaaaaaaaaaaaaaaaaaaa1111aaaaaa
+    dddddddaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5551155aaaaaaaaaaaaaaaaaaaaaaaaaaa11ff1aaaaaa
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5551155aaaaaaaaaaaaaaaaaaaaaaaaaa11fff1aaaaaa
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55155aaaaaaaaaaaaaaaaaaaaaaaaaaa1ffff1aaaaaa
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1ffff1aaaaaa
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11ffff11aaaaa
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1fffff111aaaa
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa1ffffff11111a
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa1fffffff11111
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa1ffffffffffff
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa1ffffffffffff
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa11fffffffffff
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaa11ffffffffff
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaa1ffffffffff
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaa1ffffffffff
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55551155555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa1fffffff11111
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55551155555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa1ffffffffffff
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55551155555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa1ffffffffffff
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55551155555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaa11fffffffffff
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55551155555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaa11ffffffffff
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55551155555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaa1ffffffffff
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55551155555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaa1ffffffffff
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa555555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaa1fffff111ff
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5555555aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa55555555555aaaaaaaaaaaaaaaaaaaaaaaa11fff1a1ff
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111aa1ff
@@ -127,7 +164,6 @@ scene.set_background_image(img("""
     eeeeeeeeeeeeeaaaaaaaaaaaaaaaaa7777777777777777777777777aaaaaaaaaaaaaa88888888888888888888aaaaaaaaaaaaaaaaaaaaa222222222222222222222aaaaaaaaaaeeeeeeeeffeeeeffeee
     eeeeeeeeeeeeeaaaaaaaaaaaaaaaaa7777777777777777777777777aaaaaaaaaaaaaa88888888888888888888aaaaaaaaaaaaaaaaaaaaa222222222222222222222aaaaaaaaaaeeeeeeeefeeeeeeeeee
 """))
-
 # Make the player
 mario = sprites.create(img("""
         . . . . . . . . . . . . . . . . 
@@ -153,6 +189,7 @@ mario.set_flag(SpriteFlag.STAY_IN_SCREEN, True)
 mario.set_kind(SpriteKind.player)
 # Make player controls
 controller.move_sprite(mario, 200, 200)
+info.start_countdown(45)
 # Create the enemies
 
 def on_update_interval():
@@ -180,42 +217,3 @@ def on_update_interval():
     goombas.set_velocity(-40, 0)
     goombas.set_kind(SpriteKind.enemy)
 game.on_update_interval(750, on_update_interval)
-
-def on_player1_button_a_pressed():
-    global fire
-    fire = sprites.create_projectile_from_sprite(img("""
-            . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . 5 5 5 5 5 5 . . . . . 
-                    . . . . 5 2 2 2 2 2 2 5 . . . . 
-                    . . . 5 2 2 4 4 4 4 2 2 5 . . . 
-                    . . 5 2 2 4 5 5 5 4 2 2 5 . . . 
-                    . . . 5 2 2 4 4 4 4 2 2 5 . . . 
-                    . . . . 5 2 2 2 2 2 2 5 . . . . 
-                    . . . . . 5 5 5 5 5 5 . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . . 
-                    . . . . . . . . . . . . . . . .
-        """),
-        mario,50,0)
-controller.player1.on_button_event(ControllerButton.A,
-    ControllerButtonEvent.PRESSED,
-    on_player1_button_a_pressed)
-
-def on_on_overlap(sprite, otherSprite):
-    sprite.destroy()
-    otherSprite.destroy(effects.fire, 100)
-    info.change_score_by(1)
-sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap)
-
-def on_on_overlap2(sprite, otherSprite):
-    otherSprite.destroy()
-    info.change_life_by(-1)
-sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap2)
-
-info.start_countdown(45)
-
